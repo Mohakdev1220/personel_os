@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nexus OS — Dashboard</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/dashboard.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+  <link rel="stylesheet" href="assets/css/animations.css">
+</head>
+<body>
+<div class="app-shell">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-icon">⬡</div>
+      <span class="sidebar-logo-text">Nexus OS</span>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-section-label">Main</div>
+      <a class="nav-item active" href="index.html"><span class="nav-icon">🏠</span><span class="nav-label">Dashboard</span></a>
+      <div class="sidebar-section-label">Productivity</div>
+      <a class="nav-item" href="pages/tasks.html"><span class="nav-icon">✅</span><span class="nav-label">Tasks</span></a>
+      <a class="nav-item" href="pages/notes.html"><span class="nav-icon">📝</span><span class="nav-label">Notes</span></a>
+      <a class="nav-item" href="pages/journal.html"><span class="nav-icon">📖</span><span class="nav-label">Journal</span></a>
+      <a class="nav-item" href="pages/planner.html"><span class="nav-icon">📆</span><span class="nav-label">Planner</span></a>
+      <a class="nav-item" href="pages/calendar.html"><span class="nav-icon">🗓️</span><span class="nav-label">Calendar</span></a>
+      <div class="sidebar-section-label">Life</div>
+      <a class="nav-item" href="pages/habits.html"><span class="nav-icon">🔥</span><span class="nav-label">Habits</span></a>
+      <a class="nav-item" href="pages/goals.html"><span class="nav-icon">🎯</span><span class="nav-label">Goals</span></a>
+      <a class="nav-item" href="pages/gym.html"><span class="nav-icon">🏋️</span><span class="nav-label">Gym</span></a>
+      <a class="nav-item" href="pages/memories.html"><span class="nav-icon">📸</span><span class="nav-label">Memories</span></a>
+      <div class="sidebar-section-label">Files & Tools</div>
+      <a class="nav-item" href="pages/files.html"><span class="nav-icon">📁</span><span class="nav-label">Files</span></a>
+      <a class="nav-item" href="pages/bookmarks.html"><span class="nav-icon">🔖</span><span class="nav-label">Bookmarks</span></a>
+      <a class="nav-item" href="pages/pdf-tools.html"><span class="nav-icon">📄</span><span class="nav-label">PDF Tools</span></a>
+      <div class="sidebar-section-label">Insights</div>
+      <a class="nav-item" href="pages/analytics.html"><span class="nav-icon">📊</span><span class="nav-label">Analytics</span></a>
+      <a class="nav-item" href="pages/chatbot.html"><span class="nav-icon">🤖</span><span class="nav-label">AI Chatbot</span></a>
+      <div class="sidebar-section-label">System</div>
+      <a class="nav-item" href="pages/settings.html"><span class="nav-icon">⚙️</span><span class="nav-label">Settings</span></a>
+      <a class="nav-item" href="pages/about.html"><span class="nav-icon">ℹ️</span><span class="nav-label">About</span></a>
+    </nav>
+    <div class="sidebar-footer">
+      <a class="sidebar-user" href="pages/settings.html">
+        <div class="user-avatar">US</div>
+        <div class="user-info">
+          <div class="user-name" data-user-name>User</div>
+          <div class="user-status">● Online</div>
+        </div>
+      </a>
+    </div>
+  </aside>
+  <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+  <!-- MAIN -->
+  <div class="main-content" id="main-content">
+    <header class="topbar">
+      <button class="topbar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">☰</button>
+      <div class="topbar-search">
+        <span class="topbar-search-icon">🔍</span>
+        <input type="text" placeholder="Search Nexus OS… (Ctrl+K)">
+      </div>
+      <div class="topbar-actions">
+        <button class="topbar-btn" id="theme-toggle-btn" title="Toggle theme" data-tooltip="Toggle theme">🌙</button>
+        <a href="pages/chatbot.html" class="topbar-btn" data-tooltip="AI Chatbot">🤖</a>
+        <a href="pages/settings.html" class="topbar-btn" data-tooltip="Settings">⚙️</a>
+        <div class="user-avatar" style="cursor:pointer" onclick="location.href='pages/settings.html'">US</div>
+      </div>
+    </header>
+
+    <main class="page-content">
+      <div class="dashboard-grid stagger">
+
+        <!-- Welcome (8 cols) -->
+        <div class="welcome-card col-span-8">
+          <div class="welcome-greeting" id="welcome-greeting">Good morning</div>
+          <div class="welcome-name">Welcome back, <span data-user-name>User</span> 👋</div>
+          <div class="welcome-meta">
+            <div class="welcome-meta-item">📅 <span id="live-date">Loading…</span></div>
+            <div class="welcome-meta-item">✅ <span id="stat-tasks-done">0</span> tasks done</div>
+            <div class="welcome-meta-item">🔥 <span id="stat-habits-today">0</span> habits</div>
+          </div>
+        </div>
+
+        <!-- Clock (4 cols) -->
+        <div class="card col-span-4" style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:22px;text-align:center;min-height:130px">
+          <div class="live-clock" id="live-clock">00:00:00</div>
+          <div id="live-date-sub" style="margin-top:5px;font-size:0.72rem;color:var(--text-muted)"></div>
+        </div>
+
+        <!-- Quick Actions (12 cols) -->
+        <div class="card col-span-12">
+          <div class="card-header"><span class="card-title">⚡ Quick Actions</span></div>
+          <div class="card-body">
+            <div class="quick-actions">
+              <a href="pages/tasks.html"    class="quick-action"><span class="quick-action-icon">✅</span><span class="quick-action-label">Tasks</span></a>
+              <a href="pages/notes.html"    class="quick-action"><span class="quick-action-icon">📝</span><span class="quick-action-label">Notes</span></a>
+              <a href="pages/journal.html"  class="quick-action"><span class="quick-action-icon">📖</span><span class="quick-action-label">Journal</span></a>
+              <a href="pages/habits.html"   class="quick-action"><span class="quick-action-icon">🔥</span><span class="quick-action-label">Habits</span></a>
+              <a href="pages/goals.html"    class="quick-action"><span class="quick-action-icon">🎯</span><span class="quick-action-label">Goals</span></a>
+              <a href="pages/gym.html"      class="quick-action"><span class="quick-action-icon">🏋️</span><span class="quick-action-label">Gym</span></a>
+              <a href="pages/calendar.html" class="quick-action"><span class="quick-action-icon">🗓️</span><span class="quick-action-label">Calendar</span></a>
+              <a href="pages/chatbot.html"  class="quick-action"><span class="quick-action-icon">🤖</span><span class="quick-action-label">AI Chat</span></a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Stats row: 4 × 3 cols -->
+        <div class="stat-card col-span-3">
+          <div class="stat-header"><div class="stat-icon blue">✅</div><span class="stat-trend up">↑ Today</span></div>
+          <div class="stat-value" id="stat-tasks-val">0</div>
+          <div class="stat-label">Tasks Completed</div>
+        </div>
+        <div class="stat-card col-span-3">
+          <div class="stat-header"><div class="stat-icon green">🔥</div><span class="stat-trend up">↑ Today</span></div>
+          <div class="stat-value" id="stat-habits-val">0</div>
+          <div class="stat-label">Habits Done</div>
+        </div>
+        <div class="stat-card col-span-3">
+          <div class="stat-header"><div class="stat-icon purple">🎯</div></div>
+          <div class="stat-value" id="stat-goals-count">0</div>
+          <div class="stat-label">Active Goals</div>
+        </div>
+        <div class="stat-card col-span-3">
+          <div class="stat-header"><div class="stat-icon yellow">🏋️</div></div>
+          <div class="stat-value" id="stat-gym-sessions">0</div>
+          <div class="stat-label">Gym Sessions</div>
+        </div>
+
+        <!-- Today's Tasks (5 cols) -->
+        <div class="card col-span-5">
+          <div class="card-header">
+            <span class="card-title">✅ Today's Tasks</span>
+            <a href="pages/tasks.html" class="btn btn-ghost btn-sm">View all →</a>
+          </div>
+          <div class="card-body" id="dash-tasks">
+            <div class="empty-state"><div class="empty-state-icon">📋</div><p>No tasks yet</p></div>
+          </div>
+        </div>
+
+        <!-- Productivity Score (3 cols) -->
+        <div class="card col-span-3" style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;text-align:center">
+          <div class="card-title" style="justify-content:center;margin-bottom:14px;font-size:0.82rem">🧠 Score</div>
+          <div class="progress-ring">
+            <svg id="productivity-ring" width="96" height="96" viewBox="0 0 100 100">
+              <circle class="progress-ring-circle" cx="50" cy="50" r="42"/>
+              <circle class="progress-ring-fill"   cx="50" cy="50" r="42" stroke-dasharray="264" stroke-dashoffset="264"/>
+            </svg>
+            <span class="progress-ring-text" id="productivity-score">0</span>
+          </div>
+          <div style="font-size:0.7rem;color:var(--text-muted);margin-top:6px">Out of 100</div>
+        </div>
+
+        <!-- Calendar (4 cols) -->
+        <div class="card col-span-4">
+          <div class="card-header">
+            <span class="card-title">🗓️ Calendar</span>
+            <a href="pages/calendar.html" class="btn btn-ghost btn-sm">Open →</a>
+          </div>
+          <div class="card-body" style="padding:12px 16px">
+            <div class="mini-calendar" id="mini-cal"></div>
+          </div>
+        </div>
+
+        <!-- Habit Streaks (6 cols) -->
+        <div class="card col-span-6">
+          <div class="card-header">
+            <span class="card-title">🔥 Habit Streaks</span>
+            <a href="pages/habits.html" class="btn btn-ghost btn-sm">View all →</a>
+          </div>
+          <div class="card-body" id="dash-habits">
+            <div class="empty-state"><div class="empty-state-icon">🔥</div><p>No habits yet</p></div>
+          </div>
+        </div>
+
+        <!-- Weather (3 cols) -->
+        <div class="col-span-3">
+          <div class="weather-card" id="weather-card">
+            <div class="weather-icon">⛅</div>
+            <div class="weather-label" style="margin-top:6px;font-size:0.82rem">Tap to load weather</div>
+            <button onclick="Nexus.weather.init()" class="btn btn-secondary btn-sm" style="margin-top:8px;font-size:0.72rem">📍 Get Weather</button>
+          </div>
+        </div>
+
+        <!-- AI Chatbot CTA (3 cols) -->
+        <div class="col-span-3">
+          <a href="pages/chatbot.html" style="display:block;height:100%;text-decoration:none">
+            <div class="card" style="padding:20px;text-align:center;background:linear-gradient(135deg,rgba(59,130,246,0.12),rgba(139,92,246,0.1));border-color:var(--border-accent);cursor:pointer;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px">
+              <div style="font-size:2rem">🤖</div>
+              <div style="font-weight:700;font-family:var(--font-display);font-size:0.9rem">AI Chatbot</div>
+              <div style="font-size:0.75rem;color:var(--text-secondary)">Ask anything, get help</div>
+              <div class="btn btn-primary btn-sm" style="margin-top:4px">Chat Now</div>
+            </div>
+          </a>
+        </div>
+
+        <!-- Gym Summary (4 cols) -->
+        <div class="card col-span-4">
+          <div class="card-header">
+            <span class="card-title">🏋️ Gym Summary</span>
+            <a href="pages/gym.html" class="btn btn-ghost btn-sm">View →</a>
+          </div>
+          <div class="card-body" id="dash-gym">
+            <div class="empty-state"><div class="empty-state-icon">🏋️</div><p>No workouts yet</p></div>
+          </div>
+        </div>
+
+        <!-- Recent Memories (5 cols) -->
+        <div class="card col-span-5">
+          <div class="card-header">
+            <span class="card-title">📸 Recent Memories</span>
+            <a href="pages/memories.html" class="btn btn-ghost btn-sm">View all →</a>
+          </div>
+          <div class="card-body" id="dash-memories">
+            <div class="empty-state"><div class="empty-state-icon">📸</div><p>No memories yet</p></div>
+          </div>
+        </div>
+
+        <!-- Storage (3 cols) -->
+        <div class="card col-span-3">
+          <div class="card-header"><span class="card-title">💾 Storage</span></div>
+          <div class="card-body">
+            <div class="storage-bar"><div class="storage-segments" id="storage-bar"></div></div>
+            <div id="storage-used" style="font-size:0.75rem;color:var(--text-muted)">0 KB used</div>
+            <div id="storage-pct"  style="font-size:0.7rem;color:var(--text-muted);margin-top:2px">0% of ~5MB</div>
+          </div>
+        </div>
+
+      </div><!-- /dashboard-grid -->
+    </main>
+  </div>
+</div>
+
+<div id="toast-container"></div>
+<script src="assets/js/main.js"></script>
+<script src="assets/js/dashboard.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  // Theme toggle button in topbar
+  const btn = document.getElementById('theme-toggle-btn');
+  if (btn) {
+    const update = () => {
+      const isLight = document.body.classList.contains('light-mode');
+      btn.textContent = isLight ? '🌙' : '☀️';
+      btn.title = isLight ? 'Switch to Dark' : 'Switch to Light';
+    };
+    update();
+    btn.addEventListener('click', () => { Nexus.theme.toggle(); update(); });
+  }
+});
+</script>
+</body>
+</html>
