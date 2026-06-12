@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nexus OS — Files</title>
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/components.css">
+  <link rel="stylesheet" href="../assets/css/animations.css">
+</head>
+<body>
+<div class="app-shell">
+
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-icon">⬡</div>
+      <span class="sidebar-logo-text">Nexus OS</span>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-section-label">Main</div>
+      <a class="nav-item" href="../index.html"><span class="nav-icon">🏠</span><span class="nav-label">Dashboard</span></a>
+      <div class="sidebar-section-label">Productivity</div>
+      <a class="nav-item" href="tasks.html"><span class="nav-icon">✅</span><span class="nav-label">Tasks</span></a>
+      <a class="nav-item" href="notes.html"><span class="nav-icon">📝</span><span class="nav-label">Notes</span></a>
+      <a class="nav-item" href="journal.html"><span class="nav-icon">📖</span><span class="nav-label">Journal</span></a>
+      <a class="nav-item" href="planner.html"><span class="nav-icon">📆</span><span class="nav-label">Planner</span></a>
+      <a class="nav-item" href="calendar.html"><span class="nav-icon">🗓️</span><span class="nav-label">Calendar</span></a>
+      <div class="sidebar-section-label">Life</div>
+      <a class="nav-item" href="habits.html"><span class="nav-icon">🔥</span><span class="nav-label">Habits</span></a>
+      <a class="nav-item" href="goals.html"><span class="nav-icon">🎯</span><span class="nav-label">Goals</span></a>
+      <a class="nav-item" href="gym.html"><span class="nav-icon">🏋️</span><span class="nav-label">Gym</span></a>
+      <a class="nav-item" href="memories.html"><span class="nav-icon">📸</span><span class="nav-label">Memories</span></a>
+      <div class="sidebar-section-label">Files & Tools</div>
+      <a class="nav-item active" href="files.html"><span class="nav-icon">📁</span><span class="nav-label">Files</span></a>
+      <a class="nav-item" href="bookmarks.html"><span class="nav-icon">🔖</span><span class="nav-label">Bookmarks</span></a>
+      <a class="nav-item" href="pdf-tools.html"><span class="nav-icon">📄</span><span class="nav-label">PDF Tools</span></a>
+      <div class="sidebar-section-label">Insights</div>
+      <a class="nav-item" href="analytics.html"><span class="nav-icon">📊</span><span class="nav-label">Analytics</span></a>
+      <a class="nav-item" href="../chatbot.html"><span class="nav-icon">🤖</span><span class="nav-label">AI Chatbot</span></a>
+      <div class="sidebar-section-label">System</div>
+      <a class="nav-item" href="settings.html"><span class="nav-icon">⚙️</span><span class="nav-label">Settings</span></a>
+      <a class="nav-item" href="about.html"><span class="nav-icon">ℹ️</span><span class="nav-label">About</span></a>
+    </nav>
+    <div class="sidebar-footer">
+      <a class="sidebar-user" href="settings.html">
+        <div class="user-avatar">US</div>
+        <div class="user-info"><div class="user-name" data-user-name>User</div><div class="user-status">● Online</div></div>
+      </a>
+    </div>
+  </aside>
+  <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+  <div class="main-content" id="main-content">
+    <header class="topbar">
+      <button class="topbar-toggle" id="sidebar-toggle">☰</button>
+      <span class="topbar-page-title">📁 Files</span>
+      <div class="topbar-search">
+        <span class="topbar-search-icon">🔍</span>
+        <input type="text" id="files-search" placeholder="Search files…">
+      </div>
+      <div class="topbar-actions">
+        <a href="../chatbot.html" class="topbar-btn">🤖</a>
+        <a href="settings.html" class="topbar-btn">⚙️</a>
+      </div>
+    </header>
+
+    <main class="page-content">
+      <div class="page-header">
+        <h1>Files</h1>
+        <p>Upload, organise and access your files</p>
+      </div>
+
+      <!-- Stats -->
+      <div class="grid grid-2" style="margin-bottom:16px">
+        <div class="stat-card">
+          <div class="stat-header"><div class="stat-icon blue">📁</div></div>
+          <div class="stat-value" style="font-size:1.4rem" id="files-total">0</div>
+          <div class="stat-label">Total Files</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-header"><div class="stat-icon purple">💾</div></div>
+          <div class="stat-value" style="font-size:1.4rem" id="files-size">0 B</div>
+          <div class="stat-label">Total Size</div>
+        </div>
+      </div>
+
+      <!-- Upload Zone -->
+      <div class="upload-zone" id="upload-zone" style="margin-bottom:20px">
+        <div class="upload-icon">📂</div>
+        <div class="upload-text">Drop files here or click to upload</div>
+        <div class="upload-hint">Supports any file type — stored as metadata in localStorage</div>
+        <input type="file" id="file-input" multiple style="display:none">
+      </div>
+
+      <!-- Toolbar -->
+      <div class="toolbar">
+        <div class="toolbar-left">
+          <div class="filters" style="margin-bottom:0">
+            <span class="filter-chip active" data-filter-cat="all">All</span>
+            <span class="filter-chip" data-filter-cat="documents">📄 Docs</span>
+            <span class="filter-chip" data-filter-cat="images">🖼️ Images</span>
+            <span class="filter-chip" data-filter-cat="videos">🎬 Videos</span>
+            <span class="filter-chip" data-filter-cat="audio">🎵 Audio</span>
+            <span class="filter-chip" data-filter-cat="archives">📦 Archives</span>
+          </div>
+        </div>
+        <div class="toolbar-right">
+          <button class="btn btn-secondary btn-sm" id="view-grid" title="Grid View">⊞</button>
+          <button class="btn btn-secondary btn-sm" id="view-list" title="List View">☰</button>
+        </div>
+      </div>
+
+      <!-- Files Grid -->
+      <div class="files-grid" id="files-container">
+        <div class="empty-state" style="grid-column:1/-1">
+          <div class="empty-state-icon">📁</div>
+          <h3>No files uploaded yet</h3>
+          <p>Drag and drop files or click the upload zone above</p>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<div id="toast-container"></div>
+<script src="../assets/js/main.js"></script>
+<script src="../assets/js/analytics.js"></script>
+</body>
+</html>

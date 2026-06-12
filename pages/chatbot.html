@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nexus OS — AI Chatbot</title>
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/components.css">
+  <link rel="stylesheet" href="../assets/css/animations.css">
+  <style>
+    .chat-shell { display:flex; flex-direction:column; height:100vh; overflow:hidden; }
+    .chat-main  { display:flex; flex-direction:column; flex:1; overflow:hidden; margin-left:var(--sidebar-w); transition:var(--transition-slow); }
+    .chat-main.expanded { margin-left:var(--sidebar-collapsed); }
+    .chat-body  { flex:1; overflow-y:auto; padding:24px 28px; display:flex; flex-direction:column; gap:14px; }
+    .chat-message { display:flex; gap:12px; align-items:flex-start; animation:fadeInUp .3s ease both; max-width:820px; }
+    .chat-message.user { flex-direction:row-reverse; align-self:flex-end; }
+    .chat-message.bot  { align-self:flex-start; }
+    .chat-avatar { width:34px; height:34px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1rem; flex-shrink:0; margin-top:2px; }
+    .chat-avatar.bot-av  { background:linear-gradient(135deg,var(--accent),var(--accent-2)); }
+    .chat-avatar.user-av { background:linear-gradient(135deg,#06d6a0,#059669); color:#fff; font-size:.75rem; font-weight:700; }
+    .chat-bubble { padding:11px 15px; border-radius:16px; font-size:.88rem; line-height:1.65; max-width:640px; word-break:break-word; }
+    .chat-message.user .chat-bubble { background:var(--accent); color:#fff; border-radius:16px 4px 16px 16px; }
+    .chat-message.bot  .chat-bubble { background:var(--bg-card); border:1px solid var(--border); color:var(--text-primary); border-radius:4px 16px 16px 16px; }
+    .bubble-time { font-size:.67rem; color:var(--text-muted); margin-top:4px; }
+    .chat-message.user .bubble-time { text-align:right; }
+    .typing-indicator { display:flex; gap:5px; padding:11px 16px; background:var(--bg-card); border:1px solid var(--border); border-radius:4px 16px 16px 16px; }
+    .t-dot { width:7px; height:7px; border-radius:50%; background:var(--accent); animation:bounce .9s ease-in-out infinite; }
+    .t-dot:nth-child(2){animation-delay:.15s} .t-dot:nth-child(3){animation-delay:.3s}
+    .chat-input-bar { padding:14px 24px; background:var(--bg-glass-2); border-top:1px solid var(--border); backdrop-filter:blur(20px); }
+    .chat-input-row { display:flex; align-items:flex-end; gap:10px; max-width:860px; margin:0 auto; }
+    .chat-input-wrap { flex:1; background:var(--bg-tertiary); border:1px solid var(--border); border-radius:14px; display:flex; align-items:flex-end; padding:9px 13px; gap:8px; transition:var(--transition); }
+    .chat-input-wrap:focus-within { border-color:var(--border-accent); box-shadow:0 0 0 3px var(--accent-dim); }
+    #chat-input { flex:1; background:transparent; border:none; outline:none; color:var(--text-primary); font-size:.88rem; font-family:var(--font-body); resize:none; max-height:130px; min-height:22px; line-height:1.5; }
+    #chat-input::placeholder { color:var(--text-muted); }
+    .send-btn { width:40px; height:40px; border-radius:12px; background:var(--accent); color:#fff; display:flex; align-items:center; justify-content:center; font-size:1rem; flex-shrink:0; border:none; cursor:pointer; transition:var(--transition-spring); box-shadow:0 0 14px var(--accent-glow); }
+    .send-btn:hover { transform:scale(1.08); }
+    .send-btn:disabled { opacity:.45; cursor:not-allowed; transform:none; }
+    .quick-chips { display:flex; gap:7px; flex-wrap:wrap; max-width:860px; margin:0 auto 10px; }
+    .q-chip { padding:5px 11px; background:var(--bg-tertiary); border:1px solid var(--border); border-radius:var(--radius-full); font-size:.75rem; color:var(--text-secondary); cursor:pointer; font-family:var(--font-body); transition:var(--transition); }
+    .q-chip:hover { background:var(--accent-dim); border-color:var(--border-accent); color:var(--accent-light); }
+    .chat-welcome { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:40px 20px; gap:14px; }
+    .chat-welcome-icon { width:68px; height:68px; border-radius:18px; background:linear-gradient(135deg,var(--accent),var(--accent-2)); display:flex; align-items:center; justify-content:center; font-size:1.9rem; box-shadow:0 0 36px var(--accent-glow); animation:float 3s ease-in-out infinite; }
+    .chat-welcome h2 { font-family:var(--font-display); font-size:1.5rem; font-weight:800; letter-spacing:-.03em; }
+    .chat-welcome p  { font-size:.88rem; color:var(--text-secondary); max-width:380px; }
+    .welcome-prompts { display:flex; gap:8px; flex-wrap:wrap; justify-content:center; margin-top:6px; }
+    .w-prompt { padding:9px 14px; background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius-md); font-size:.79rem; color:var(--text-secondary); cursor:pointer; transition:var(--transition); }
+    .w-prompt:hover { border-color:var(--border-accent); color:var(--text-primary); }
+    @media(max-width:768px){ .chat-main{margin-left:0!important} .chat-body{padding:14px} .chat-input-bar{padding:10px 14px} }
+  </style>
+</head>
+<body>
+<div class="app-shell chat-shell">
+
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo"><div class="sidebar-logo-icon">⬡</div><span class="sidebar-logo-text">Nexus OS</span></div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-section-label">Main</div>
+      <a class="nav-item" href="../index.html"><span class="nav-icon">🏠</span><span class="nav-label">Dashboard</span></a>
+      <div class="sidebar-section-label">Productivity</div>
+      <a class="nav-item" href="tasks.html"><span class="nav-icon">✅</span><span class="nav-label">Tasks</span></a>
+      <a class="nav-item" href="notes.html"><span class="nav-icon">📝</span><span class="nav-label">Notes</span></a>
+      <a class="nav-item" href="journal.html"><span class="nav-icon">📖</span><span class="nav-label">Journal</span></a>
+      <a class="nav-item" href="planner.html"><span class="nav-icon">📆</span><span class="nav-label">Planner</span></a>
+      <a class="nav-item" href="calendar.html"><span class="nav-icon">🗓️</span><span class="nav-label">Calendar</span></a>
+      <div class="sidebar-section-label">Life</div>
+      <a class="nav-item" href="habits.html"><span class="nav-icon">🔥</span><span class="nav-label">Habits</span></a>
+      <a class="nav-item" href="goals.html"><span class="nav-icon">🎯</span><span class="nav-label">Goals</span></a>
+      <a class="nav-item" href="gym.html"><span class="nav-icon">🏋️</span><span class="nav-label">Gym</span></a>
+      <a class="nav-item" href="memories.html"><span class="nav-icon">📸</span><span class="nav-label">Memories</span></a>
+      <div class="sidebar-section-label">Files & Tools</div>
+      <a class="nav-item" href="files.html"><span class="nav-icon">📁</span><span class="nav-label">Files</span></a>
+      <a class="nav-item" href="bookmarks.html"><span class="nav-icon">🔖</span><span class="nav-label">Bookmarks</span></a>
+      <a class="nav-item" href="pdf-tools.html"><span class="nav-icon">📄</span><span class="nav-label">PDF Tools</span></a>
+      <div class="sidebar-section-label">Insights</div>
+      <a class="nav-item" href="analytics.html"><span class="nav-icon">📊</span><span class="nav-label">Analytics</span></a>
+      <a class="nav-item active" href="chatbot.html"><span class="nav-icon">🤖</span><span class="nav-label">AI Chatbot</span></a>
+      <div class="sidebar-section-label">System</div>
+      <a class="nav-item" href="settings.html"><span class="nav-icon">⚙️</span><span class="nav-label">Settings</span></a>
+      <a class="nav-item" href="about.html"><span class="nav-icon">ℹ️</span><span class="nav-label">About</span></a>
+    </nav>
+    <div class="sidebar-footer">
+      <a class="sidebar-user" href="settings.html">
+        <div class="user-avatar">US</div>
+        <div class="user-info"><div class="user-name" data-user-name>User</div><div class="user-status">● Online</div></div>
+      </a>
+    </div>
+  </aside>
+  <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+  <div class="chat-main" id="main-content">
+    <header class="topbar">
+      <button class="topbar-toggle" id="sidebar-toggle">☰</button>
+      <div style="display:flex;align-items:center;gap:10px">
+        <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;font-size:1rem;box-shadow:0 0 12px var(--accent-glow)">🤖</div>
+        <div>
+          <div style="font-family:var(--font-display);font-weight:700;font-size:.88rem">Nexus AI</div>
+          <div style="font-size:.68rem;color:#06d6a0;display:flex;align-items:center;gap:3px"><span style="width:5px;height:5px;border-radius:50%;background:#06d6a0;display:inline-block"></span>Online</div>
+        </div>
+      </div>
+      <div class="topbar-actions" style="margin-left:auto">
+        <button class="topbar-btn" id="btn-clear-chat" title="Clear chat">🗑️</button>
+        <a href="settings.html" class="topbar-btn">⚙️</a>
+      </div>
+    </header>
+
+    <div class="chat-body" id="chat-body">
+      <div class="chat-welcome" id="chat-welcome">
+        <div class="chat-welcome-icon">🤖</div>
+        <h2>Nexus AI Assistant</h2>
+        <p>Your intelligent companion for productivity, planning and personal growth.</p>
+        <div class="welcome-prompts">
+          <div class="w-prompt" onclick="usePrompt('Help me plan my day')">📋 Plan my day</div>
+          <div class="w-prompt" onclick="usePrompt('Suggest habits I should build')">🔥 Suggest habits</div>
+          <div class="w-prompt" onclick="usePrompt('Give me a productivity tip')">💡 Productivity tip</div>
+          <div class="w-prompt" onclick="usePrompt('Create a workout plan for me')">🏋️ Workout plan</div>
+          <div class="w-prompt" onclick="usePrompt('Help me set a SMART goal')">🎯 Set a goal</div>
+          <div class="w-prompt" onclick="usePrompt('Give me a journal prompt for today')">📖 Journal prompt</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-input-bar">
+      <div class="quick-chips" id="quick-chips" style="display:none">
+        <span class="q-chip" onclick="usePrompt('Summarise my tasks')">📋 Tasks summary</span>
+        <span class="q-chip" onclick="usePrompt('Give me a motivational quote')">✨ Motivate me</span>
+        <span class="q-chip" onclick="usePrompt('What should I focus on today?')">🧠 Daily focus</span>
+        <span class="q-chip" onclick="usePrompt('Give me a 5-minute mindfulness exercise')">🧘 Mindfulness</span>
+        <span class="q-chip" onclick="usePrompt('Help me beat procrastination')">⚡ Anti-procrastination</span>
+      </div>
+      <div class="chat-input-row">
+        <div class="chat-input-wrap">
+          <textarea id="chat-input" placeholder="Ask Nexus AI anything… (Enter to send)" rows="1"
+            onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMessage()}"
+            oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,130)+'px'"></textarea>
+        </div>
+        <button class="send-btn" id="send-btn" onclick="sendMessage()">➤</button>
+      </div>
+      <div style="text-align:center;margin-top:6px;font-size:.67rem;color:var(--text-muted)">Nexus AI · All conversations stay in your browser</div>
+    </div>
+  </div>
+</div>
+
+<div id="toast-container"></div>
+<script src="../assets/js/main.js"></script>
+<script>
+(function(){
+  'use strict';
+  const STORE = 'chat_history';
+  let typing  = false;
+  const profile = Nexus.storage.get('profile',{name:'You'});
+  const uName = profile.name || 'You';
+  const uInit = uName.slice(0,2).toUpperCase();
+
+  /* ---- Response bank ---- */
+  const R = {
+    greet:['Hey '+uName+'! 👋 Ready to help you have an amazing day. What would you like to work on?','Hello '+uName+'! 😊 I\'m here to help with productivity, habits, goals and more. What\'s on your mind?','Hi there! 🚀 What can I help you with today?'],
+    tasks:['Try the **2-minute rule**: if a task takes under 2 minutes, do it now. For the rest, group by energy level — high-focus work in the morning, admin in the afternoon. ✅','Use the **Eisenhower Matrix**: Urgent+Important → Do first · Important, not urgent → Schedule · Urgent, not important → Delegate · Neither → Delete. 📋','Start each day choosing your **3 Most Important Tasks (MITs)**. Finish those before anything else. Everything else is a bonus. 🎯'],
+    habits:['The most sustainable habits are **tiny and specific**. Instead of "exercise more", try "10 push-ups after brushing teeth". What habit do you want to build? 🔥','Try **habit stacking**: attach a new habit to an existing one. Example: *"After my morning coffee, I write in my journal for 5 minutes."* ☕📖','Research shows it takes **~66 days** to form a habit — not 21. Missing one day is fine. Never miss twice. Consistency beats perfection. 💪'],
+    goals:['Use the **SMART framework**: Specific · Measurable · Achievable · Relevant · Time-bound. What goal are you working on? I can help break it down! 🎯','Work **backwards** from your desired outcome. Imagine you\'ve achieved it — what was the very last step? Then the one before that. Reverse-engineer your path. 🔄','Big goals feel overwhelming. Break yours into **monthly → weekly → daily** actions. Small consistent steps compound massively over time. 📈'],
+    gym:['For strength gains, **progressive overload** is king — gradually increase weight, reps or sets each week. Log everything to track progress! 🏋️','A solid beginner split: **Push / Pull / Legs** × 3-4 days per week. Push = chest/shoulders/triceps · Pull = back/biceps · Legs = quads/hamstrings/glutes.','Recovery is 50% of the result. Aim for **7-9 hours sleep**, 0.8-1g protein per lb of bodyweight, and at least one full rest day per week. 💤'],
+    journal:['Great journal prompts:\n\n• What am I grateful for right now?\n• What\'s one thing I want to accomplish today?\n• What\'s been on my mind lately?\n• What would make today great? 📖','Try **morning pages** — write 3 pages of stream-of-consciousness every morning before checking your phone. It clears mental clutter and sparks creativity. ✍️','Evening reflection questions:\n\n• What went well today?\n• What could I improve?\n• What did I learn?\n• What am I looking forward to tomorrow? 🌙'],
+    productivity:['Top techniques:\n\n**Pomodoro** — 25 min work, 5 min break\n**Time blocking** — schedule tasks in your calendar\n**Eat the frog** — hardest task first\n**2-min rule** — quick tasks done immediately ⚡','The most productive people work on the **right things**, not more things. Identify your 3 MITs each morning and protect that time fiercely. 🧠','For **deep work**: close notifications, use website blockers, work in 90-min blocks. Your brain follows a natural ~90-min ultradian rhythm. 🎧'],
+    motivation:['✨ *"The secret of getting ahead is getting started."* — Mark Twain\n\nYou\'ve already taken a step by showing up. Now take one more small step. What can you do in the next 5 minutes?','🌟 Progress, not perfection. Every expert was once a beginner. Every pro was once an amateur. Keep going — your future self is cheering you on.','💫 *"You don\'t have to be great to get started, but you have to get started to be great."*\n\nWhat\'s one thing you\'ve been putting off that you can start right now?'],
+    plan:['Let\'s plan your day, '+uName+'! 📋\n\n**Morning** (high energy) — hardest task first, no meetings\n**Midday** (medium) — collaboration, calls, emails\n**Afternoon** (lower) — admin, planning, routine tasks\n\nWhat tasks do you need to fit in today?','The **1-3-5 rule**: each day, aim to accomplish **1 big thing, 3 medium things, 5 small things**. Simple, focused, achievable. 📝'],
+    mindfulness:['🧘 **Box breathing** (5 minutes):\n1. Inhale for 4 seconds\n2. Hold for 4 seconds\n3. Exhale for 4 seconds\n4. Hold for 4 seconds\nRepeat 5 times. Activates your parasympathetic nervous system instantly. Try it now! 💨','**Body scan** (3 minutes): Close your eyes. Start from the top of your head. Slowly move awareness downward. Notice tension without judgement. Breathe into tight areas. End at your feet. 🌿'],
+    workout:['🏋️ **Full-body beginner plan (3 days/week)**:\n\nDay A: Squat 3×10 · Push-up 3×10 · Row 3×10 · Plank 3×30s\nDay B: Deadlift 3×8 · OHP 3×10 · Pull-up 3×5 · Lunge 3×10\n\nRest between workout days. Add weight each week!','For cardio, **Zone 2 training** (conversational pace, 60-70% max HR) for 30-45 min × 3-4x/week builds aerobic base, burns fat efficiently and speeds recovery. 🏃'],
+    weather:['I can\'t check live weather directly, but your Nexus OS dashboard has a **live weather widget** that uses your location automatically! Head to the Dashboard and tap "Get Weather". 🌤️'],
+    nexus:['Nexus OS is your personal operating system — Tasks, Notes, Journal, Habits, Goals, Gym, Calendar, Planner, Memories, Files, Bookmarks, PDF Tools and Analytics, all in one beautiful offline app. Everything is stored locally in your browser. 🚀','You can customise Nexus OS in **Settings** — change the accent color, toggle dark/light mode, export your data, and manage your profile. ⚙️'],
+    default:['That\'s a great question, '+uName+'! 🤔 I specialise in productivity, habits, goals, fitness and personal planning. Could you tell me more about what you\'re working on?','Interesting topic! 💡 I\'m best at helping with daily planning, habit building, goal setting, workouts and journaling. How can I help you improve your personal OS today?','I\'m still learning! 😊 I\'m most helpful with productivity systems, habit building, goal tracking and daily planning. What aspect of your life would you like to level up?']
+  };
+
+  function pick(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+
+  function getReply(input){
+    const l = input.toLowerCase();
+    if(/\b(hi|hello|hey|howdy|good morning|good evening|sup)\b/.test(l)) return pick(R.greet);
+    if(/\b(task|todo|to-do|work|priorit|checklist)\b/.test(l))           return pick(R.tasks);
+    if(/\b(habit|streak|routine|daily|consistent|build)\b/.test(l))      return pick(R.habits);
+    if(/\b(goal|target|achieve|aim|milestone|dream|smart)\b/.test(l))    return pick(R.goals);
+    if(/\b(gym|workout|exercise|fitness|lift|run|muscle|weight|train)\b/.test(l)) return pick(R.gym);
+    if(/\b(journal|diary|reflect|write|entry|mood|feelings)\b/.test(l))  return pick(R.journal);
+    if(/\b(produc|focus|efficien|pomodoro|deep work|procrastin|distract)\b/.test(l)) return pick(R.productivity);
+    if(/\b(motiv|inspire|quote|encourage|keep going|give up|depress)\b/.test(l)) return pick(R.motivation);
+    if(/\b(plan|schedul|organis|organize|today|week|day)\b/.test(l))     return pick(R.plan);
+    if(/\b(meditat|mindful|breath|stress|calm|relax|anxious|anxiety|peace)\b/.test(l)) return pick(R.mindfulness);
+    if(/\b(workout plan|program|routine|split|push pull|beginner)\b/.test(l)) return pick(R.workout);
+    if(/\b(weather|temperature|rain|sunny|forecast)\b/.test(l))          return pick(R.weather);
+    if(/\b(nexus|this app|what can you|what are you)\b/.test(l))         return pick(R.nexus);
+    return pick(R.default);
+  }
+
+  function fmt(t){ return t.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\*(.*?)\*/g,'<em>$1</em>').replace(/\n/g,'<br>'); }
+  function now(){ return new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}); }
+
+  function appendMsg(role,text){
+    const welcome = document.getElementById('chat-welcome');
+    if(welcome) welcome.remove();
+    const chips = document.getElementById('quick-chips');
+    if(chips) chips.style.display='flex';
+
+    const body = document.getElementById('chat-body');
+    const wrap = document.createElement('div');
+    wrap.className = 'chat-message '+role;
+    const av = document.createElement('div');
+    av.className = 'chat-avatar '+(role==='bot'?'bot-av':'user-av');
+    av.textContent = role==='bot'?'🤖':uInit;
+    const inner = document.createElement('div');
+    const bub = document.createElement('div');
+    bub.className='chat-bubble';
+    bub.innerHTML=fmt(text);
+    const t=document.createElement('div');
+    t.className='bubble-time';
+    t.textContent=now();
+    inner.appendChild(bub); inner.appendChild(t);
+    wrap.appendChild(av); wrap.appendChild(inner);
+    body.appendChild(wrap);
+    body.scrollTop=body.scrollHeight;
+    // save
+    const hist=Nexus.storage.get(STORE,[]); hist.push({role,text,time:now()});
+    Nexus.storage.set(STORE,hist.slice(-80));
+  }
+
+  function showTyping(){
+    const body=document.getElementById('chat-body');
+    const d=document.createElement('div');
+    d.className='chat-message bot'; d.id='typing-msg';
+    d.innerHTML='<div class="chat-avatar bot-av">🤖</div><div class="typing-indicator"><div class="t-dot"></div><div class="t-dot"></div><div class="t-dot"></div></div>';
+    body.appendChild(d); body.scrollTop=body.scrollHeight;
+  }
+  function hideTyping(){ document.getElementById('typing-msg')?.remove(); }
+
+  window.sendMessage = function(){
+    const inp=document.getElementById('chat-input');
+    const btn=document.getElementById('send-btn');
+    const text=(inp?.value||'').trim();
+    if(!text||typing) return;
+    appendMsg('user',text);
+    inp.value=''; inp.style.height='auto';
+    typing=true; btn.disabled=true;
+    showTyping();
+    setTimeout(()=>{
+      hideTyping();
+      appendMsg('bot',getReply(text));
+      typing=false; btn.disabled=false;
+      inp.focus();
+    }, 700+Math.random()*900);
+  };
+
+  window.usePrompt = function(text){
+    const inp=document.getElementById('chat-input');
+    if(inp){inp.value=text; inp.focus();}
+    sendMessage();
+  };
+
+  function clearChat(){
+    Nexus.storage.remove(STORE);
+    const body=document.getElementById('chat-body');
+    if(!body) return;
+    body.innerHTML=`<div class="chat-welcome" id="chat-welcome">
+      <div class="chat-welcome-icon">🤖</div>
+      <h2>Nexus AI Assistant</h2>
+      <p>Your intelligent companion for productivity, planning and personal growth.</p>
+    </div>`;
+    const chips=document.getElementById('quick-chips');
+    if(chips) chips.style.display='none';
+    Nexus.toast.success('Conversation cleared');
+  }
+
+  function loadHistory(){
+    const hist=Nexus.storage.get(STORE,[]);
+    if(!hist.length) return;
+    hist.forEach(m=>appendMsg(m.role,m.text));
+  }
+
+  document.addEventListener('DOMContentLoaded',()=>{
+    loadHistory();
+    document.getElementById('btn-clear-chat')?.addEventListener('click',clearChat);
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nexus OS — Tasks</title>
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/components.css">
+  <link rel="stylesheet" href="../assets/css/animations.css">
+</head>
+<body>
+<div class="app-shell">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-icon">⬡</div>
+      <span class="sidebar-logo-text">Nexus OS</span>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-section-label">Main</div>
+      <a class="nav-item" href="../index.html"><span class="nav-icon">🏠</span><span class="nav-label">Dashboard</span></a>
+      <div class="sidebar-section-label">Productivity</div>
+      <a class="nav-item active" href="tasks.html"><span class="nav-icon">✅</span><span class="nav-label">Tasks</span></a>
+      <a class="nav-item" href="notes.html"><span class="nav-icon">📝</span><span class="nav-label">Notes</span></a>
+      <a class="nav-item" href="journal.html"><span class="nav-icon">📖</span><span class="nav-label">Journal</span></a>
+      <a class="nav-item" href="planner.html"><span class="nav-icon">📆</span><span class="nav-label">Planner</span></a>
+      <a class="nav-item" href="calendar.html"><span class="nav-icon">🗓️</span><span class="nav-label">Calendar</span></a>
+      <div class="sidebar-section-label">Life</div>
+      <a class="nav-item" href="habits.html"><span class="nav-icon">🔥</span><span class="nav-label">Habits</span></a>
+      <a class="nav-item" href="goals.html"><span class="nav-icon">🎯</span><span class="nav-label">Goals</span></a>
+      <a class="nav-item" href="gym.html"><span class="nav-icon">🏋️</span><span class="nav-label">Gym</span></a>
+      <a class="nav-item" href="memories.html"><span class="nav-icon">📸</span><span class="nav-label">Memories</span></a>
+      <div class="sidebar-section-label">Files & Tools</div>
+      <a class="nav-item" href="files.html"><span class="nav-icon">📁</span><span class="nav-label">Files</span></a>
+      <a class="nav-item" href="bookmarks.html"><span class="nav-icon">🔖</span><span class="nav-label">Bookmarks</span></a>
+      <a class="nav-item" href="pdf-tools.html"><span class="nav-icon">📄</span><span class="nav-label">PDF Tools</span></a>
+      <div class="sidebar-section-label">Insights</div>
+      <a class="nav-item" href="analytics.html"><span class="nav-icon">📊</span><span class="nav-label">Analytics</span></a>
+      <a class="nav-item" href="../chatbot.html"><span class="nav-icon">🤖</span><span class="nav-label">AI Chatbot</span></a>
+      <div class="sidebar-section-label">System</div>
+      <a class="nav-item" href="settings.html"><span class="nav-icon">⚙️</span><span class="nav-label">Settings</span></a>
+      <a class="nav-item" href="about.html"><span class="nav-icon">ℹ️</span><span class="nav-label">About</span></a>
+    </nav>
+    <div class="sidebar-footer">
+      <a class="sidebar-user" href="settings.html">
+        <div class="user-avatar">US</div>
+        <div class="user-info">
+          <div class="user-name" data-user-name>User</div>
+          <div class="user-status">● Online</div>
+        </div>
+      </a>
+    </div>
+  </aside>
+  <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+  <!-- MAIN -->
+  <div class="main-content" id="main-content">
+    <header class="topbar">
+      <button class="topbar-toggle" id="sidebar-toggle">☰</button>
+      <span class="topbar-page-title">✅ Tasks</span>
+      <div class="topbar-search">
+        <span class="topbar-search-icon">🔍</span>
+        <input type="text" id="task-search" placeholder="Search tasks…">
+      </div>
+      <div class="topbar-actions">
+        <a href="../chatbot.html" class="topbar-btn" data-tooltip="AI Chatbot">🤖</a>
+        <a href="settings.html" class="topbar-btn" data-tooltip="Settings">⚙️</a>
+      </div>
+    </header>
+
+    <main class="page-content">
+      <div class="page-header">
+        <h1>Tasks</h1>
+        <p>Manage your to-dos, set priorities and track progress</p>
+      </div>
+
+      <!-- Progress Bar -->
+      <div class="card" style="margin-bottom:16px;padding:16px 20px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+          <span style="font-size:0.82rem;font-weight:600;color:var(--text-secondary)">Overall Progress</span>
+          <span style="font-size:0.82rem;color:var(--text-muted)" id="tasks-progress-label">0/0 completed (0%)</span>
+        </div>
+        <div class="progress" id="tasks-progress"><div class="progress-bar" style="width:0%"></div></div>
+      </div>
+
+      <!-- Toolbar -->
+      <div class="toolbar">
+        <div class="toolbar-left">
+          <button class="btn btn-primary" id="btn-add-task">➕ Add Task</button>
+          <span style="font-size:0.82rem;color:var(--text-muted)" id="tasks-count">0 tasks</span>
+        </div>
+        <div class="toolbar-right">
+          <select class="form-select" id="task-sort" style="width:auto;padding:8px 12px;font-size:0.82rem">
+            <option value="created">Sort: Newest</option>
+            <option value="priority">Sort: Priority</option>
+            <option value="dueDate">Sort: Due Date</option>
+            <option value="title">Sort: Title</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Category Filters -->
+      <div class="filters">
+        <span class="filter-chip active" data-filter-cat="all">All</span>
+        <span class="filter-chip" data-filter-cat="general">General</span>
+        <span class="filter-chip" data-filter-cat="work">Work</span>
+        <span class="filter-chip" data-filter-cat="personal">Personal</span>
+        <span class="filter-chip" data-filter-cat="health">Health</span>
+      </div>
+
+      <!-- Priority Filters -->
+      <div class="filters">
+        <span class="filter-chip active" data-filter-pri="all">All Priorities</span>
+        <span class="filter-chip" data-filter-pri="high">🔴 High</span>
+        <span class="filter-chip" data-filter-pri="medium">🟡 Medium</span>
+        <span class="filter-chip" data-filter-pri="normal">⚪ Normal</span>
+      </div>
+
+      <!-- Tasks List -->
+      <div id="tasks-list">
+        <div class="empty-state">
+          <div class="empty-state-icon">📋</div>
+          <h3>No tasks yet</h3>
+          <p>Click "+ Add Task" to create your first task</p>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<div id="toast-container"></div>
+<script src="../assets/js/main.js"></script>
+<script src="../assets/js/tasks.js"></script>
+</body>
+</html>

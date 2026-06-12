@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nexus OS — PDF Tools</title>
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/components.css">
+  <link rel="stylesheet" href="../assets/css/animations.css">
+</head>
+<body>
+<div class="app-shell">
+
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-icon">⬡</div>
+      <span class="sidebar-logo-text">Nexus OS</span>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-section-label">Main</div>
+      <a class="nav-item" href="../index.html"><span class="nav-icon">🏠</span><span class="nav-label">Dashboard</span></a>
+      <div class="sidebar-section-label">Productivity</div>
+      <a class="nav-item" href="tasks.html"><span class="nav-icon">✅</span><span class="nav-label">Tasks</span></a>
+      <a class="nav-item" href="notes.html"><span class="nav-icon">📝</span><span class="nav-label">Notes</span></a>
+      <a class="nav-item" href="journal.html"><span class="nav-icon">📖</span><span class="nav-label">Journal</span></a>
+      <a class="nav-item" href="planner.html"><span class="nav-icon">📆</span><span class="nav-label">Planner</span></a>
+      <a class="nav-item" href="calendar.html"><span class="nav-icon">🗓️</span><span class="nav-label">Calendar</span></a>
+      <div class="sidebar-section-label">Life</div>
+      <a class="nav-item" href="habits.html"><span class="nav-icon">🔥</span><span class="nav-label">Habits</span></a>
+      <a class="nav-item" href="goals.html"><span class="nav-icon">🎯</span><span class="nav-label">Goals</span></a>
+      <a class="nav-item" href="gym.html"><span class="nav-icon">🏋️</span><span class="nav-label">Gym</span></a>
+      <a class="nav-item" href="memories.html"><span class="nav-icon">📸</span><span class="nav-label">Memories</span></a>
+      <div class="sidebar-section-label">Files & Tools</div>
+      <a class="nav-item" href="files.html"><span class="nav-icon">📁</span><span class="nav-label">Files</span></a>
+      <a class="nav-item" href="bookmarks.html"><span class="nav-icon">🔖</span><span class="nav-label">Bookmarks</span></a>
+      <a class="nav-item active" href="pdf-tools.html"><span class="nav-icon">📄</span><span class="nav-label">PDF Tools</span></a>
+      <div class="sidebar-section-label">Insights</div>
+      <a class="nav-item" href="analytics.html"><span class="nav-icon">📊</span><span class="nav-label">Analytics</span></a>
+      <a class="nav-item" href="../chatbot.html"><span class="nav-icon">🤖</span><span class="nav-label">AI Chatbot</span></a>
+      <div class="sidebar-section-label">System</div>
+      <a class="nav-item" href="settings.html"><span class="nav-icon">⚙️</span><span class="nav-label">Settings</span></a>
+      <a class="nav-item" href="about.html"><span class="nav-icon">ℹ️</span><span class="nav-label">About</span></a>
+    </nav>
+    <div class="sidebar-footer">
+      <a class="sidebar-user" href="settings.html">
+        <div class="user-avatar">US</div>
+        <div class="user-info"><div class="user-name" data-user-name>User</div><div class="user-status">● Online</div></div>
+      </a>
+    </div>
+  </aside>
+  <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+  <div class="main-content" id="main-content">
+    <header class="topbar">
+      <button class="topbar-toggle" id="sidebar-toggle">☰</button>
+      <span class="topbar-page-title">📄 PDF Tools</span>
+      <div class="topbar-actions">
+        <a href="../chatbot.html" class="topbar-btn">🤖</a>
+        <a href="settings.html" class="topbar-btn">⚙️</a>
+      </div>
+    </header>
+
+    <main class="page-content">
+      <div class="page-header">
+        <h1>PDF Tools</h1>
+        <p>Generate, merge, compress and manage your PDF documents</p>
+      </div>
+
+      <!-- Tool Cards -->
+      <div class="grid grid-3" style="margin-bottom:28px">
+        <div class="pdf-tool-card" onclick="PDFTools.openTool('generate')">
+          <div class="pdf-tool-icon">📝</div>
+          <div class="pdf-tool-title">Generate PDF</div>
+          <div class="pdf-tool-desc">Convert text or HTML content into a downloadable PDF document</div>
+        </div>
+        <div class="pdf-tool-card" onclick="PDFTools.openTool('merge')">
+          <div class="pdf-tool-icon">🔗</div>
+          <div class="pdf-tool-title">Merge PDFs</div>
+          <div class="pdf-tool-desc">Combine multiple PDF files into a single document</div>
+        </div>
+        <div class="pdf-tool-card" onclick="PDFTools.openTool('compress')">
+          <div class="pdf-tool-icon">📦</div>
+          <div class="pdf-tool-title">Compress PDF</div>
+          <div class="pdf-tool-desc">Reduce PDF file size while maintaining quality</div>
+        </div>
+        <div class="pdf-tool-card" onclick="PDFTools.openTool('split')">
+          <div class="pdf-tool-icon">✂️</div>
+          <div class="pdf-tool-title">Split PDF</div>
+          <div class="pdf-tool-desc">Extract specific pages or split into multiple files</div>
+        </div>
+        <div class="pdf-tool-card" onclick="PDFTools.openTool('convert')">
+          <div class="pdf-tool-icon">🔄</div>
+          <div class="pdf-tool-title">Convert to PDF</div>
+          <div class="pdf-tool-desc">Convert images, Word docs or text files to PDF</div>
+        </div>
+        <div class="pdf-tool-card" onclick="PDFTools.openTool('protect')">
+          <div class="pdf-tool-icon">🔒</div>
+          <div class="pdf-tool-title">Protect PDF</div>
+          <div class="pdf-tool-desc">Add password protection and set permissions</div>
+        </div>
+      </div>
+
+      <!-- Active Tool Panel -->
+      <div id="tool-panel" style="display:none">
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title" id="tool-panel-title">Tool</span>
+            <button class="btn btn-ghost btn-sm" onclick="PDFTools.closeTool()">✕ Close</button>
+          </div>
+          <div class="card-body" id="tool-panel-body"></div>
+        </div>
+      </div>
+
+      <!-- Info Banner -->
+      <div class="card" style="background:linear-gradient(135deg,rgba(59,130,246,0.08),rgba(139,92,246,0.06));border-color:var(--border-accent)">
+        <div class="card-body" style="display:flex;align-items:center;gap:16px">
+          <span style="font-size:2rem">ℹ️</span>
+          <div>
+            <div style="font-weight:700;margin-bottom:4px">Client-Side PDF Processing</div>
+            <div style="font-size:0.855rem;color:var(--text-secondary)">All PDF tools in Nexus OS run directly in your browser — no files are uploaded to any server. Your documents stay 100% private. For full PDF processing, integrate with a library like <strong>pdf-lib</strong> or <strong>jsPDF</strong>.</div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<div id="toast-container"></div>
+<script src="../assets/js/main.js"></script>
+<script>
+const PDFTools = (() => {
+  const tools = {
+    generate: {
+      title: '📝 Generate PDF',
+      body: `
+        <div class="form-group">
+          <label class="form-label">Document Title</label>
+          <input id="pdf-title" class="form-input" placeholder="My Document" value="My Document">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Content</label>
+          <textarea id="pdf-content" class="form-textarea" style="min-height:200px" placeholder="Type or paste your content here…"></textarea>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <div class="form-group">
+            <label class="form-label">Font Size</label>
+            <select id="pdf-font" class="form-select">
+              <option value="12">12pt</option><option value="14" selected>14pt</option><option value="16">16pt</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Page Size</label>
+            <select id="pdf-size" class="form-select">
+              <option value="a4" selected>A4</option><option value="letter">Letter</option>
+            </select>
+          </div>
+        </div>
+        <button class="btn btn-primary" onclick="PDFTools.generatePDF()">⬇️ Generate & Download</button>`
+    },
+    merge: {
+      title: '🔗 Merge PDFs',
+      body: `
+        <div class="upload-zone" onclick="document.getElementById('merge-input').click()" style="margin-bottom:16px">
+          <div class="upload-icon">📄</div>
+          <div class="upload-text">Click to select PDF files</div>
+          <div class="upload-hint">Select 2 or more PDF files to merge</div>
+          <input type="file" id="merge-input" accept=".pdf" multiple style="display:none" onchange="PDFTools.listFiles(this,'merge-list')">
+        </div>
+        <div id="merge-list" style="margin-bottom:12px"></div>
+        <button class="btn btn-primary" onclick="PDFTools.simulateAction('Merging PDFs…','PDFs merged successfully!')">🔗 Merge PDFs</button>`
+    },
+    compress: {
+      title: '📦 Compress PDF',
+      body: `
+        <div class="upload-zone" onclick="document.getElementById('compress-input').click()" style="margin-bottom:16px">
+          <div class="upload-icon">📦</div>
+          <div class="upload-text">Click to select a PDF file</div>
+          <div class="upload-hint">Maximum file size: 50 MB</div>
+          <input type="file" id="compress-input" accept=".pdf" style="display:none" onchange="PDFTools.listFiles(this,'compress-list')">
+        </div>
+        <div id="compress-list" style="margin-bottom:12px"></div>
+        <div class="form-group">
+          <label class="form-label">Compression Level</label>
+          <select id="compress-level" class="form-select">
+            <option value="low">Low (better quality)</option>
+            <option value="medium" selected>Medium (recommended)</option>
+            <option value="high">High (smallest size)</option>
+          </select>
+        </div>
+        <button class="btn btn-primary" onclick="PDFTools.simulateAction('Compressing PDF…','PDF compressed by ~40%!')">📦 Compress PDF</button>`
+    },
+    split: {
+      title: '✂️ Split PDF',
+      body: `
+        <div class="upload-zone" onclick="document.getElementById('split-input').click()" style="margin-bottom:16px">
+          <div class="upload-icon">✂️</div>
+          <div class="upload-text">Click to select a PDF file</div>
+          <input type="file" id="split-input" accept=".pdf" style="display:none" onchange="PDFTools.listFiles(this,'split-list')">
+        </div>
+        <div id="split-list" style="margin-bottom:12px"></div>
+        <div class="form-group">
+          <label class="form-label">Split Mode</label>
+          <select id="split-mode" class="form-select">
+            <option value="all">Every page (individual files)</option>
+            <option value="range">By page range</option>
+            <option value="half">Split in half</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Page Range (e.g. 1-3, 5, 7-9)</label>
+          <input id="split-range" class="form-input" placeholder="1-3, 5, 7-9">
+        </div>
+        <button class="btn btn-primary" onclick="PDFTools.simulateAction('Splitting PDF…','PDF split successfully!')">✂️ Split PDF</button>`
+    },
+    convert: {
+      title: '🔄 Convert to PDF',
+      body: `
+        <div class="upload-zone" onclick="document.getElementById('convert-input').click()" style="margin-bottom:16px">
+          <div class="upload-icon">🔄</div>
+          <div class="upload-text">Click to select files to convert</div>
+          <div class="upload-hint">Supports: .jpg, .png, .txt, .docx (UI demo)</div>
+          <input type="file" id="convert-input" multiple style="display:none" onchange="PDFTools.listFiles(this,'convert-list')">
+        </div>
+        <div id="convert-list" style="margin-bottom:12px"></div>
+        <button class="btn btn-primary" onclick="PDFTools.simulateAction('Converting to PDF…','Files converted to PDF!')">🔄 Convert to PDF</button>`
+    },
+    protect: {
+      title: '🔒 Protect PDF',
+      body: `
+        <div class="upload-zone" onclick="document.getElementById('protect-input').click()" style="margin-bottom:16px">
+          <div class="upload-icon">🔒</div>
+          <div class="upload-text">Click to select a PDF file</div>
+          <input type="file" id="protect-input" accept=".pdf" style="display:none" onchange="PDFTools.listFiles(this,'protect-list')">
+        </div>
+        <div id="protect-list" style="margin-bottom:12px"></div>
+        <div class="form-group">
+          <label class="form-label">Password</label>
+          <input id="protect-pw" class="form-input" type="password" placeholder="Enter password">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Confirm Password</label>
+          <input id="protect-pw2" class="form-input" type="password" placeholder="Confirm password">
+        </div>
+        <button class="btn btn-primary" onclick="PDFTools.simulateAction('Protecting PDF…','PDF password-protected!')">🔒 Protect PDF</button>`
+    }
+  };
+
+  function openTool(key) {
+    const tool = tools[key];
+    if (!tool) return;
+    const panel = document.getElementById('tool-panel');
+    const title = document.getElementById('tool-panel-title');
+    const body  = document.getElementById('tool-panel-body');
+    if (panel) { panel.style.display = 'block'; panel.scrollIntoView({ behavior:'smooth', block:'start' }); }
+    if (title) title.textContent = tool.title;
+    if (body)  body.innerHTML    = tool.body;
+  }
+
+  function closeTool() {
+    const panel = document.getElementById('tool-panel');
+    if (panel) panel.style.display = 'none';
+  }
+
+  function listFiles(input, listId) {
+    const el = document.getElementById(listId);
+    if (!el || !input.files.length) return;
+    el.innerHTML = [...input.files].map(f => `
+      <div style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--bg-tertiary);border-radius:var(--radius-sm);margin-bottom:4px">
+        <span>📄</span>
+        <span style="flex:1;font-size:0.855rem;font-weight:500">${f.name}</span>
+        <span style="font-size:0.75rem;color:var(--text-muted)">${(f.size/1024).toFixed(1)} KB</span>
+      </div>`).join('');
+  }
+
+  function generatePDF() {
+    const title   = document.getElementById('pdf-title')?.value.trim() || 'Document';
+    const content = document.getElementById('pdf-content')?.value.trim();
+    if (!content) { Nexus.toast.error('Please enter some content'); return; }
+
+    // Use browser's print-to-PDF via a new window
+    const w = window.open('', '_blank');
+    w.document.write(`<!DOCTYPE html><html><head><title>${title}</title>
+      <style>body{font-family:Georgia,serif;font-size:14pt;line-height:1.7;max-width:650px;margin:60px auto;color:#111}h1{font-size:22pt;margin-bottom:24px}</style>
+      </head><body><h1>${title}</h1><div>${content.replace(/\n/g,'<br>')}</div></body></html>`);
+    w.document.close();
+    setTimeout(() => { w.print(); }, 400);
+    Nexus.toast.success('PDF preview opened — use Print → Save as PDF');
+  }
+
+  function simulateAction(loadingMsg, successMsg) {
+    Nexus.toast.info(loadingMsg);
+    setTimeout(() => Nexus.toast.success(successMsg), 1800);
+  }
+
+  return { openTool, closeTool, listFiles, generatePDF, simulateAction };
+})();
+window.PDFTools = PDFTools;
+</script>
+</body>
+</html>

@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nexus OS — Memories</title>
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/components.css">
+  <link rel="stylesheet" href="../assets/css/animations.css">
+</head>
+<body>
+<div class="app-shell">
+
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-icon">⬡</div>
+      <span class="sidebar-logo-text">Nexus OS</span>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-section-label">Main</div>
+      <a class="nav-item" href="../index.html"><span class="nav-icon">🏠</span><span class="nav-label">Dashboard</span></a>
+      <div class="sidebar-section-label">Productivity</div>
+      <a class="nav-item" href="tasks.html"><span class="nav-icon">✅</span><span class="nav-label">Tasks</span></a>
+      <a class="nav-item" href="notes.html"><span class="nav-icon">📝</span><span class="nav-label">Notes</span></a>
+      <a class="nav-item" href="journal.html"><span class="nav-icon">📖</span><span class="nav-label">Journal</span></a>
+      <a class="nav-item" href="planner.html"><span class="nav-icon">📆</span><span class="nav-label">Planner</span></a>
+      <a class="nav-item" href="calendar.html"><span class="nav-icon">🗓️</span><span class="nav-label">Calendar</span></a>
+      <div class="sidebar-section-label">Life</div>
+      <a class="nav-item" href="habits.html"><span class="nav-icon">🔥</span><span class="nav-label">Habits</span></a>
+      <a class="nav-item" href="goals.html"><span class="nav-icon">🎯</span><span class="nav-label">Goals</span></a>
+      <a class="nav-item" href="gym.html"><span class="nav-icon">🏋️</span><span class="nav-label">Gym</span></a>
+      <a class="nav-item active" href="memories.html"><span class="nav-icon">📸</span><span class="nav-label">Memories</span></a>
+      <div class="sidebar-section-label">Files & Tools</div>
+      <a class="nav-item" href="files.html"><span class="nav-icon">📁</span><span class="nav-label">Files</span></a>
+      <a class="nav-item" href="bookmarks.html"><span class="nav-icon">🔖</span><span class="nav-label">Bookmarks</span></a>
+      <a class="nav-item" href="pdf-tools.html"><span class="nav-icon">📄</span><span class="nav-label">PDF Tools</span></a>
+      <div class="sidebar-section-label">Insights</div>
+      <a class="nav-item" href="analytics.html"><span class="nav-icon">📊</span><span class="nav-label">Analytics</span></a>
+      <a class="nav-item" href="../chatbot.html"><span class="nav-icon">🤖</span><span class="nav-label">AI Chatbot</span></a>
+      <div class="sidebar-section-label">System</div>
+      <a class="nav-item" href="settings.html"><span class="nav-icon">⚙️</span><span class="nav-label">Settings</span></a>
+      <a class="nav-item" href="about.html"><span class="nav-icon">ℹ️</span><span class="nav-label">About</span></a>
+    </nav>
+    <div class="sidebar-footer">
+      <a class="sidebar-user" href="settings.html">
+        <div class="user-avatar">US</div>
+        <div class="user-info"><div class="user-name" data-user-name>User</div><div class="user-status">● Online</div></div>
+      </a>
+    </div>
+  </aside>
+  <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+  <div class="main-content" id="main-content">
+    <header class="topbar">
+      <button class="topbar-toggle" id="sidebar-toggle">☰</button>
+      <span class="topbar-page-title">📸 Memories</span>
+      <div class="topbar-search">
+        <span class="topbar-search-icon">🔍</span>
+        <input type="text" id="mem-search" placeholder="Search memories…">
+      </div>
+      <div class="topbar-actions">
+        <a href="../chatbot.html" class="topbar-btn">🤖</a>
+        <a href="settings.html" class="topbar-btn">⚙️</a>
+      </div>
+    </header>
+
+    <main class="page-content">
+      <div class="page-header">
+        <h1>Memories</h1>
+        <p>Preserve your favourite moments in a personal timeline</p>
+      </div>
+
+      <div class="toolbar">
+        <div class="toolbar-left">
+          <button class="btn btn-primary" id="btn-add-memory">➕ Add Memory</button>
+          <span style="font-size:0.82rem;color:var(--text-muted)" id="mem-count">0 memories</span>
+        </div>
+        <div class="toolbar-right">
+          <select class="form-select" id="mem-filter-cat" style="width:auto;padding:8px 12px;font-size:0.82rem">
+            <option value="all">All Categories</option>
+            <option value="travel">Travel</option>
+            <option value="family">Family</option>
+            <option value="friends">Friends</option>
+            <option value="achievement">Achievement</option>
+            <option value="food">Food</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Timeline -->
+      <div id="memories-timeline">
+        <div class="empty-state">
+          <div class="empty-state-icon">📸</div>
+          <h3>No memories saved yet</h3>
+          <p>Click "+ Add Memory" to start your personal timeline</p>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<div id="toast-container"></div>
+
+<script src="../assets/js/main.js"></script>
+<script>
+/* ---- Memories Module ---- */
+const Memories = (() => {
+  const STORE = 'memories';
+  let memories = [];
+  const escHtml = s => String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const EMOJIS  = ['📸','🌅','🎉','🏖️','🎂','🏔️','🌍','🎵','🍕','💡','❤️','🏆','🌸','⭐','🎭'];
+  const catColors = { travel:'badge-blue', family:'badge-purple', friends:'badge-green', achievement:'badge-yellow', food:'badge-red', other:'badge-gray' };
+
+  const load = () => { memories = Nexus.storage.get(STORE, []); };
+  const save = () => Nexus.storage.set(STORE, memories);
+
+  function add(data) {
+    memories.unshift({ id: Nexus.uid(), ...data, created: new Date().toISOString() });
+    save(); render(); Nexus.toast.success('Memory saved! 📸');
+  }
+
+  async function remove(id) {
+    if (!await Nexus.modal.confirm({ title:'Delete Memory', message:'This memory will be permanently deleted.', danger:true, confirmText:'Delete' })) return;
+    memories = memories.filter(m => m.id !== id);
+    save(); render();
+  }
+
+  function getFiltered() {
+    const q   = document.getElementById('mem-search')?.value.toLowerCase() || '';
+    const cat = document.getElementById('mem-filter-cat')?.value || 'all';
+    return memories.filter(m => {
+      const matchQ   = !q   || (m.title||'').toLowerCase().includes(q) || (m.desc||'').toLowerCase().includes(q);
+      const matchCat = cat === 'all' || m.category === cat;
+      return matchQ && matchCat;
+    });
+  }
+
+  function render() {
+    const container = document.getElementById('memories-timeline');
+    if (!container) return;
+    const list = getFiltered();
+    const countEl = document.getElementById('mem-count');
+    if (countEl) countEl.textContent = `${list.length} memor${list.length!==1?'ies':'y'}`;
+
+    if (!list.length) {
+      container.innerHTML = `<div class="empty-state"><div class="empty-state-icon">📸</div><h3>No memories found</h3><p>Try adjusting your search or filter</p></div>`;
+      return;
+    }
+
+    // Group by month-year
+    const groups = {};
+    list.forEach(m => {
+      const key = new Date(m.created).toLocaleDateString([],{year:'numeric',month:'long'});
+      groups[key] = groups[key] || [];
+      groups[key].push(m);
+    });
+
+    container.innerHTML = Object.entries(groups).map(([month, mems]) => `
+      <div style="margin-bottom:28px">
+        <div style="font-family:var(--font-display);font-size:0.82rem;font-weight:700;color:var(--text-muted);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:8px">
+          <div style="flex:1;height:1px;background:var(--border)"></div>
+          ${month}
+          <div style="flex:1;height:1px;background:var(--border)"></div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px">
+          ${mems.map(m => `
+            <div class="memory-full-card anim-fade-up">
+              <div class="memory-img-full" style="font-size:3.5rem">${m.emoji||'📸'}</div>
+              <div class="memory-card-body">
+                <div style="display:flex;align-items:start;justify-content:space-between;gap:8px">
+                  <div>
+                    <div class="memory-card-title">${escHtml(m.title||'Memory')}</div>
+                    <div style="font-size:0.72rem;color:var(--text-muted);margin-top:2px">${Nexus.date.format(m.date||m.created)}</div>
+                  </div>
+                  <span class="badge ${catColors[m.category]||'badge-gray'}">${m.category||'other'}</span>
+                </div>
+                ${m.desc ? `<div class="memory-card-desc" style="margin-top:8px">${escHtml(m.desc)}</div>` : ''}
+                <div style="margin-top:10px;display:flex;justify-content:flex-end">
+                  <button class="btn btn-ghost btn-icon btn-sm" onclick="Memories.delete('${m.id}')">🗑️</button>
+                </div>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function openAdd() {
+    Nexus.modal.open({
+      title: '📸 New Memory',
+      body: `
+        <div class="form-group">
+          <label class="form-label">Title *</label>
+          <input id="m-title" class="form-input" placeholder="e.g. Summer trip to Goa">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Description</label>
+          <textarea id="m-desc" class="form-textarea" style="min-height:90px" placeholder="What made this moment special?"></textarea>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <div class="form-group">
+            <label class="form-label">Date</label>
+            <input id="m-date" class="form-input" type="date" value="${Nexus.date.today()}">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Category</label>
+            <select id="m-cat" class="form-select">
+              <option value="travel">Travel</option>
+              <option value="family">Family</option>
+              <option value="friends">Friends</option>
+              <option value="achievement">Achievement</option>
+              <option value="food">Food</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Pick an Emoji</label>
+          <div style="display:flex;flex-wrap:wrap;gap:6px">
+            ${EMOJIS.map(e => `<button type="button" class="mood-btn" onclick="this.closest('.modal-body').querySelectorAll('.mood-btn').forEach(b=>b.classList.remove('active'));this.classList.add('active');document.getElementById('m-emoji').value='${e}'">${e}</button>`).join('')}
+          </div>
+          <input id="m-emoji" type="hidden" value="📸">
+        </div>`,
+      footer: `<button class="btn btn-secondary" onclick="Nexus.modal.close()">Cancel</button>
+               <button class="btn btn-primary" onclick="Memories.submitForm()">Save Memory</button>`
+    });
+  }
+
+  function submitForm() {
+    const title = document.getElementById('m-title')?.value.trim();
+    if (!title) { Nexus.toast.error('Title is required'); return; }
+    add({
+      title,
+      desc:     document.getElementById('m-desc')?.value.trim(),
+      date:     document.getElementById('m-date')?.value,
+      category: document.getElementById('m-cat')?.value,
+      emoji:    document.getElementById('m-emoji')?.value || '📸'
+    });
+    Nexus.modal.close();
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    load(); render();
+    document.getElementById('btn-add-memory')?.addEventListener('click', openAdd);
+    document.getElementById('mem-search')?.addEventListener('input', render);
+    document.getElementById('mem-filter-cat')?.addEventListener('change', render);
+  });
+
+  return { delete: remove, submitForm, openAdd };
+})();
+window.Memories = Memories;
+</script>
+</body>
+</html>

@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nexus OS — Settings</title>
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/components.css">
+  <link rel="stylesheet" href="../assets/css/animations.css">
+</head>
+<body>
+<div class="app-shell">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo"><div class="sidebar-logo-icon">⬡</div><span class="sidebar-logo-text">Nexus OS</span></div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-section-label">Main</div>
+      <a class="nav-item" href="../index.html"><span class="nav-icon">🏠</span><span class="nav-label">Dashboard</span></a>
+      <div class="sidebar-section-label">Productivity</div>
+      <a class="nav-item" href="tasks.html"><span class="nav-icon">✅</span><span class="nav-label">Tasks</span></a>
+      <a class="nav-item" href="notes.html"><span class="nav-icon">📝</span><span class="nav-label">Notes</span></a>
+      <a class="nav-item" href="journal.html"><span class="nav-icon">📖</span><span class="nav-label">Journal</span></a>
+      <a class="nav-item" href="planner.html"><span class="nav-icon">📆</span><span class="nav-label">Planner</span></a>
+      <a class="nav-item" href="calendar.html"><span class="nav-icon">🗓️</span><span class="nav-label">Calendar</span></a>
+      <div class="sidebar-section-label">Life</div>
+      <a class="nav-item" href="habits.html"><span class="nav-icon">🔥</span><span class="nav-label">Habits</span></a>
+      <a class="nav-item" href="goals.html"><span class="nav-icon">🎯</span><span class="nav-label">Goals</span></a>
+      <a class="nav-item" href="gym.html"><span class="nav-icon">🏋️</span><span class="nav-label">Gym</span></a>
+      <a class="nav-item" href="memories.html"><span class="nav-icon">📸</span><span class="nav-label">Memories</span></a>
+      <div class="sidebar-section-label">Files & Tools</div>
+      <a class="nav-item" href="files.html"><span class="nav-icon">📁</span><span class="nav-label">Files</span></a>
+      <a class="nav-item" href="bookmarks.html"><span class="nav-icon">🔖</span><span class="nav-label">Bookmarks</span></a>
+      <a class="nav-item" href="pdf-tools.html"><span class="nav-icon">📄</span><span class="nav-label">PDF Tools</span></a>
+      <div class="sidebar-section-label">Insights</div>
+      <a class="nav-item" href="analytics.html"><span class="nav-icon">📊</span><span class="nav-label">Analytics</span></a>
+      <a class="nav-item" href="chatbot.html"><span class="nav-icon">🤖</span><span class="nav-label">AI Chatbot</span></a>
+      <div class="sidebar-section-label">System</div>
+      <a class="nav-item active" href="settings.html"><span class="nav-icon">⚙️</span><span class="nav-label">Settings</span></a>
+      <a class="nav-item" href="about.html"><span class="nav-icon">ℹ️</span><span class="nav-label">About</span></a>
+    </nav>
+    <div class="sidebar-footer">
+      <a class="sidebar-user" href="settings.html">
+        <div class="user-avatar" id="sb-avatar">US</div>
+        <div class="user-info"><div class="user-name" data-user-name>User</div><div class="user-status">● Online</div></div>
+      </a>
+    </div>
+  </aside>
+  <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+  <div class="main-content" id="main-content">
+    <header class="topbar">
+      <button class="topbar-toggle" id="sidebar-toggle">☰</button>
+      <span class="topbar-page-title">⚙️ Settings</span>
+      <div class="topbar-actions">
+        <button class="topbar-btn" id="theme-toggle-btn" title="Toggle theme">🌙</button>
+        <a href="chatbot.html" class="topbar-btn">🤖</a>
+      </div>
+    </header>
+
+    <main class="page-content">
+      <div class="page-header"><h1>Settings</h1><p>Customise your Nexus OS experience</p></div>
+
+      <div class="grid grid-2" style="gap:20px;align-items:start">
+
+        <!-- LEFT -->
+        <div>
+
+          <!-- Profile Card -->
+          <div class="settings-section" style="margin-bottom:16px">
+            <div class="settings-section-header">👤 Profile</div>
+            <div style="display:flex;align-items:center;gap:16px;padding:20px 20px 0">
+              <div id="profile-avatar-big" style="width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;font-size:1.5rem;font-weight:800;color:#fff;flex-shrink:0">US</div>
+              <div>
+                <div id="profile-display-name" style="font-family:var(--font-display);font-size:1.1rem;font-weight:800">User</div>
+                <div id="profile-display-email" style="font-size:0.78rem;color:var(--text-muted);margin-top:2px">No email set</div>
+              </div>
+            </div>
+            <div style="padding:16px 20px">
+              <div class="form-group">
+                <label class="form-label">Display Name</label>
+                <input id="profile-name" class="form-input" placeholder="Your name">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Email</label>
+                <input id="profile-email" class="form-input" type="email" placeholder="your@email.com">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Bio</label>
+                <textarea id="profile-bio" class="form-textarea" style="min-height:70px" placeholder="A short bio…"></textarea>
+              </div>
+              <button class="btn btn-primary" id="btn-save-profile">💾 Save Profile</button>
+            </div>
+          </div>
+
+          <!-- Appearance -->
+          <div class="settings-section">
+            <div class="settings-section-header">🎨 Appearance</div>
+            <div class="settings-row">
+              <div class="settings-row-info">
+                <div class="settings-row-label">Dark / Light Mode</div>
+                <div class="settings-row-desc">Toggle between dark and light themes</div>
+              </div>
+              <label class="toggle-switch">
+                <input type="checkbox" id="theme-toggle">
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+            <div class="settings-row" style="flex-direction:column;align-items:flex-start;gap:12px">
+              <div class="settings-row-info">
+                <div class="settings-row-label">Accent Color</div>
+                <div class="settings-row-desc">Primary interface color</div>
+              </div>
+              <div class="color-swatches" id="accent-swatches"></div>
+              <div style="display:flex;align-items:center;gap:10px">
+                <label class="form-label" style="margin:0;white-space:nowrap;font-size:0.78rem">Custom:</label>
+                <input type="color" id="accent-custom" style="width:50px;height:32px;border:none;background:none;cursor:pointer;padding:0">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT -->
+        <div>
+
+          <!-- Preferences -->
+          <div class="settings-section" style="margin-bottom:16px">
+            <div class="settings-section-header">🔧 Preferences</div>
+            <div class="settings-row">
+              <div class="settings-row-info">
+                <div class="settings-row-label">Compact Sidebar</div>
+                <div class="settings-row-desc">Icon-only mode by default</div>
+              </div>
+              <label class="toggle-switch">
+                <input type="checkbox" id="pref-compact">
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+            <div class="settings-row">
+              <div class="settings-row-info">
+                <div class="settings-row-label">Browser Notifications</div>
+                <div class="settings-row-desc">Task reminders and habit alerts</div>
+              </div>
+              <button class="btn btn-secondary btn-sm" id="btn-notif">🔔 Enable</button>
+            </div>
+          </div>
+
+          <!-- Data Management -->
+          <div class="settings-section" style="margin-bottom:16px">
+            <div class="settings-section-header">💾 Data Management</div>
+            <div class="settings-row">
+              <div class="settings-row-info">
+                <div class="settings-row-label">Export All Data</div>
+                <div class="settings-row-desc">Download your data as JSON</div>
+              </div>
+              <button class="btn btn-secondary btn-sm" id="btn-export">⬇️ Export</button>
+            </div>
+            <div class="settings-row">
+              <div class="settings-row-info">
+                <div class="settings-row-label">Import Data</div>
+                <div class="settings-row-desc">Restore from JSON backup</div>
+              </div>
+              <button class="btn btn-secondary btn-sm" id="btn-import">⬆️ Import</button>
+              <input type="file" id="import-input" accept=".json" style="display:none">
+            </div>
+            <div class="settings-row">
+              <div class="settings-row-info">
+                <div class="settings-row-label">Storage Used</div>
+              </div>
+              <span class="badge badge-blue" id="storage-badge">Calculating…</span>
+            </div>
+            <div class="settings-row">
+              <div class="settings-row-info">
+                <div class="settings-row-label" style="color:#f87171">Clear All Data</div>
+                <div class="settings-row-desc" style="color:#f87171">Permanently delete everything</div>
+              </div>
+              <button class="btn btn-danger btn-sm" id="btn-clear">🗑️ Clear</button>
+            </div>
+          </div>
+
+          <!-- About -->
+          <div class="settings-section">
+            <div class="settings-section-header">ℹ️ About</div>
+            <div class="settings-row">
+              <div class="settings-row-info"><div class="settings-row-label">Version</div></div>
+              <span class="badge badge-gray">v2.0</span>
+            </div>
+            <div class="settings-row">
+              <div class="settings-row-info"><div class="settings-row-label">Storage Engine</div></div>
+              <span class="badge badge-gray">localStorage</span>
+            </div>
+            <div class="settings-row">
+              <div class="settings-row-info"><div class="settings-row-label">About Page</div></div>
+              <a href="about.html" class="btn btn-secondary btn-sm">View →</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+<div id="toast-container"></div>
+<script src="../assets/js/main.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const ACCENTS = ['#3b82f6','#8b5cf6','#06d6a0','#f59e0b','#f87171','#ec4899','#14b8a6','#f97316'];
+
+  /* --- Load profile --- */
+  const profile = Nexus.storage.get('profile', { name:'User', email:'', bio:'' });
+  document.getElementById('profile-name').value  = profile.name  || '';
+  document.getElementById('profile-email').value = profile.email || '';
+  document.getElementById('profile-bio').value   = profile.bio   || '';
+  updateProfileDisplay(profile.name || 'User', profile.email || '');
+
+  function updateProfileDisplay(name, email) {
+    const initials = (name||'U').slice(0,2).toUpperCase();
+    document.getElementById('profile-avatar-big').textContent = initials;
+    document.getElementById('profile-display-name').textContent = name || 'User';
+    document.getElementById('profile-display-email').textContent = email || 'No email set';
+    document.getElementById('sb-avatar').textContent = initials;
+    document.querySelectorAll('[data-user-name]').forEach(el => el.textContent = name || 'User');
+    document.querySelectorAll('.user-avatar').forEach(el => { if (!el.id || el.id === 'sb-avatar') el.textContent = initials; });
+  }
+
+  document.getElementById('btn-save-profile').addEventListener('click', () => {
+    const name  = document.getElementById('profile-name').value.trim()  || 'User';
+    const email = document.getElementById('profile-email').value.trim();
+    const bio   = document.getElementById('profile-bio').value.trim();
+    Nexus.profile.save({ name, email, bio });
+    updateProfileDisplay(name, email);
+    Nexus.toast.success('Profile saved!');
+  });
+
+  /* --- Dark/Light Toggle --- */
+  const themeChk = document.getElementById('theme-toggle');
+  const themBtn  = document.getElementById('theme-toggle-btn');
+  const isLight  = document.body.classList.contains('light-mode');
+  themeChk.checked = isLight;
+  if (themBtn) themBtn.textContent = isLight ? '🌙' : '☀️';
+
+  themeChk.addEventListener('change', () => {
+    const light = Nexus.theme.toggle();
+    if (themBtn) themBtn.textContent = light ? '🌙' : '☀️';
+    Nexus.toast.info('Switched to ' + (light ? 'Light' : 'Dark') + ' mode');
+  });
+  if (themBtn) themBtn.addEventListener('click', () => {
+    const light = Nexus.theme.toggle();
+    themeChk.checked = light;
+    themBtn.textContent = light ? '🌙' : '☀️';
+    Nexus.toast.info('Switched to ' + (light ? 'Light' : 'Dark') + ' mode');
+  });
+
+  /* --- Accent Swatches --- */
+  const swatchContainer = document.getElementById('accent-swatches');
+  const currentAccent   = Nexus.storage.get('accent', '#3b82f6');
+  swatchContainer.innerHTML = ACCENTS.map(c =>
+    '<div class="color-swatch' + (c === currentAccent ? ' active' : '') + '" style="background:' + c + '" data-color="' + c + '"></div>'
+  ).join('');
+  swatchContainer.querySelectorAll('.color-swatch').forEach(sw => {
+    sw.addEventListener('click', () => {
+      swatchContainer.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'));
+      sw.classList.add('active');
+      Nexus.theme.setAccent(sw.dataset.color);
+      document.getElementById('accent-custom').value = sw.dataset.color;
+      Nexus.toast.success('Accent color updated!');
+    });
+  });
+  const customPicker = document.getElementById('accent-custom');
+  customPicker.value = currentAccent;
+  customPicker.addEventListener('input', () => {
+    Nexus.theme.setAccent(customPicker.value);
+    swatchContainer.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'));
+  });
+
+  /* --- Compact sidebar pref --- */
+  const compactChk = document.getElementById('pref-compact');
+  compactChk.checked = Nexus.storage.get('sidebar_collapsed', false);
+  compactChk.addEventListener('change', () => {
+    Nexus.storage.set('sidebar_collapsed', compactChk.checked);
+    const sb = document.getElementById('sidebar');
+    const mc = document.getElementById('main-content');
+    if (compactChk.checked) { sb.classList.add('collapsed'); mc.classList.add('expanded'); }
+    else { sb.classList.remove('collapsed'); mc.classList.remove('expanded'); }
+  });
+
+  /* --- Notifications --- */
+  document.getElementById('btn-notif').addEventListener('click', async () => {
+    const ok = await Nexus.notifications.requestPermission();
+    Nexus.toast[ok ? 'success' : 'warning'](ok ? 'Notifications enabled!' : 'Permission denied');
+    if (ok) document.getElementById('btn-notif').textContent = '✅ Enabled';
+  });
+
+  /* --- Storage badge --- */
+  const raw = JSON.stringify(Nexus.storage.export()).length;
+  document.getElementById('storage-badge').textContent = (raw/1024).toFixed(1) + ' KB';
+
+  /* --- Export --- */
+  document.getElementById('btn-export').addEventListener('click', () => {
+    const blob = new Blob([JSON.stringify(Nexus.storage.export(), null, 2)], { type:'application/json' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'nexusos-backup-' + Nexus.date.today() + '.json';
+    a.click();
+    URL.revokeObjectURL(a.href);
+    Nexus.toast.success('Data exported!');
+  });
+
+  /* --- Import --- */
+  document.getElementById('btn-import').addEventListener('click', () => document.getElementById('import-input').click());
+  document.getElementById('import-input').addEventListener('change', async e => {
+    const file = e.target.files[0]; if (!file) return;
+    const text = await file.text();
+    try {
+      const data = JSON.parse(text);
+      const ok = await Nexus.modal.confirm({ title:'Import Data', message:'Merge imported data with existing data?', confirmText:'Import' });
+      if (!ok) return;
+      Nexus.storage.import(data);
+      Nexus.toast.success('Data imported! Reloading…');
+      setTimeout(() => location.reload(), 1200);
+    } catch { Nexus.toast.error('Invalid JSON file'); }
+    e.target.value = '';
+  });
+
+  /* --- Clear --- */
+  document.getElementById('btn-clear').addEventListener('click', async () => {
+    const ok = await Nexus.modal.confirm({ title:'Clear All Data', message:'⚠️ This will permanently delete ALL your Nexus OS data. Cannot be undone.', confirmText:'Delete Everything', danger:true });
+    if (!ok) return;
+    for (let i = localStorage.length - 1; i >= 0; i--) {
+      const k = localStorage.key(i);
+      if (k && k.startsWith('nexus_')) localStorage.removeItem(k);
+    }
+    Nexus.toast.success('All data cleared. Reloading…');
+    setTimeout(() => location.reload(), 1200);
+  });
+});
+</script>
+</body>
+</html>
