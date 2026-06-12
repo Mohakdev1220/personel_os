@@ -1,0 +1,118 @@
+/* ============================================================
+   NEXUS OS — dashboard.css v4 FINAL
+   Fixed: welcome card light mode, even cards, responsive grid
+   ============================================================ */
+
+/* ── 12-column grid ── */
+.dashboard-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:15px;align-items:start}
+.col-span-3 {grid-column:span 3}
+.col-span-4 {grid-column:span 4}
+.col-span-5 {grid-column:span 5}
+.col-span-6 {grid-column:span 6}
+.col-span-7 {grid-column:span 7}
+.col-span-8 {grid-column:span 8}
+.col-span-9 {grid-column:span 9}
+.col-span-12{grid-column:span 12}
+
+/* ── Welcome card ── */
+.welcome-card{
+  background:linear-gradient(135deg,#0f1e3a 0%,#0d1117 55%,#1a0a2e 100%);
+  border:1px solid var(--border-accent);
+  border-radius:var(--radius-xl);
+  padding:26px 30px;
+  position:relative;overflow:hidden;min-height:128px;
+}
+.welcome-card::before{content:'';position:absolute;top:-40px;right:-40px;width:200px;height:200px;background:radial-gradient(circle,rgba(59,130,246,.2) 0%,transparent 70%);border-radius:50%;pointer-events:none}
+.welcome-card::after{content:'';position:absolute;bottom:-60px;left:40%;width:280px;height:280px;background:radial-gradient(circle,rgba(139,92,246,.12) 0%,transparent 70%);border-radius:50%;pointer-events:none}
+.welcome-greeting{font-size:.76rem;color:var(--accent-light);letter-spacing:.08em;text-transform:uppercase;font-weight:600;margin-bottom:4px;position:relative;z-index:1}
+.welcome-name{font-family:var(--font-display);font-size:1.55rem;font-weight:800;letter-spacing:-.04em;margin-bottom:10px;position:relative;z-index:1;color:#e8edf5}
+.welcome-meta{display:flex;align-items:center;gap:14px;flex-wrap:wrap;position:relative;z-index:1}
+.welcome-meta-item{display:flex;align-items:center;gap:5px;font-size:.8rem;color:rgba(232,237,245,.7)}
+.welcome-meta-item span{color:#e8edf5;font-weight:600}
+
+/* light mode welcome override */
+body.light-mode .welcome-card{background:linear-gradient(135deg,color-mix(in srgb,var(--accent) 9%,#fff) 0%,#fff 60%,color-mix(in srgb,var(--accent-2) 6%,#fff) 100%)!important;border-color:var(--border-accent)!important}
+body.light-mode .welcome-name{color:var(--text-primary)!important;-webkit-text-fill-color:var(--text-primary)!important}
+body.light-mode .welcome-greeting{color:var(--accent)!important}
+body.light-mode .welcome-meta-item{color:var(--text-secondary)!important}
+body.light-mode .welcome-meta-item span{color:var(--text-primary)!important}
+
+/* ── Clock ── */
+.live-clock{font-family:var(--font-display);font-size:1.9rem;font-weight:800;letter-spacing:-.04em;color:var(--accent-light);text-shadow:0 0 22px var(--accent-glow);line-height:1}
+body.light-mode .live-clock{color:var(--accent);text-shadow:none}
+
+/* ── Quick actions ── */
+.quick-actions{display:grid;grid-template-columns:repeat(8,1fr);gap:7px}
+.quick-action{background:var(--bg-tertiary);border:1px solid var(--border);border-radius:var(--radius-md);padding:11px 6px;text-align:center;cursor:pointer;transition:var(--trp);display:flex;flex-direction:column;align-items:center;gap:5px;text-decoration:none;color:var(--text-secondary)}
+.quick-action:hover{background:var(--accent-dim);border-color:var(--border-accent);color:var(--accent);transform:translateY(-3px) scale(1.02)}
+.quick-action-icon{font-size:1.25rem}
+.quick-action-label{font-size:.69rem;font-weight:600}
+
+/* ── Mini calendar ── */
+.mini-cal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:7px}
+.mini-cal-title{font-weight:700;font-size:.82rem;color:var(--text-primary)}
+.mini-cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:1px;text-align:center}
+.mini-cal-day-label{font-size:.6rem;color:var(--text-muted);font-weight:700;padding:3px 0;letter-spacing:.03em}
+.mini-cal-day{padding:4px 2px;border-radius:5px;cursor:pointer;transition:var(--tr);color:var(--text-secondary);font-size:.73rem}
+.mini-cal-day:hover{background:var(--accent-dim);color:var(--accent)}
+.mini-cal-day.today{background:var(--accent);color:#fff;font-weight:700}
+.mini-cal-day.other-month{color:var(--text-muted);opacity:.35}
+.mini-cal-day.has-event{position:relative}
+.mini-cal-day.has-event::after{content:'';position:absolute;bottom:1px;left:50%;transform:translateX(-50%);width:3px;height:3px;border-radius:50%;background:var(--accent-2)}
+
+/* ── Progress ring ── */
+.progress-ring{position:relative;display:inline-flex;align-items:center;justify-content:center}
+.progress-ring svg{transform:rotate(-90deg)}
+.progress-ring-circle{stroke:var(--bg-tertiary);fill:none;stroke-width:5}
+.progress-ring-fill{fill:none;stroke-width:5;stroke:var(--accent);stroke-linecap:round;transition:stroke-dashoffset .8s ease;filter:drop-shadow(0 0 4px var(--accent-glow))}
+.progress-ring-text{position:absolute;font-family:var(--font-display);font-weight:800;font-size:.9rem;color:var(--text-primary)}
+
+/* ── Habit dots (mini) ── */
+.habit-row{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--border)}
+.habit-row:last-child{border-bottom:none}
+.habit-name{flex:1;font-size:.835rem;color:var(--text-primary)}
+.habit-dots{display:flex;gap:3px}
+.habit-dot{width:7px;height:7px;border-radius:50%;background:var(--bg-tertiary);border:1px solid var(--border)}
+.habit-dot.done{background:var(--accent);border-color:var(--accent);box-shadow:0 0 5px var(--accent-glow)}
+.habit-streak{font-size:.7rem;color:var(--accent);font-weight:700}
+
+/* ── Weather card ── */
+.weather-card{background:linear-gradient(135deg,#0f172a 0%,#1e3a5f 100%);border-radius:var(--radius-lg);padding:18px 14px;text-align:center;border:1px solid rgba(59,130,246,.22);height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.weather-icon{font-size:2.5rem;margin-bottom:5px;line-height:1}
+.weather-temp{font-family:var(--font-display);font-size:1.85rem;font-weight:800;letter-spacing:-.04em;line-height:1;color:#e8edf5}
+.weather-label{font-size:.76rem;color:rgba(232,237,245,.7)}
+
+/* ── Storage ── */
+.storage-bar{height:7px;background:var(--bg-tertiary);border-radius:var(--radius-full);overflow:hidden;margin:9px 0 5px}
+.storage-segments{height:100%;display:flex;border-radius:var(--radius-full);overflow:hidden}
+.storage-seg{height:100%;transition:width .6s ease}
+
+/* ── Memory mini ── */
+.memory-card-sm{border-radius:var(--radius-md);overflow:hidden;border:1px solid var(--border);transition:var(--tr);cursor:pointer}
+.memory-card-sm:hover{transform:scale(1.02);border-color:var(--border-hover)}
+.memory-img{height:78px;background:var(--bg-tertiary);display:flex;align-items:center;justify-content:center;font-size:1.7rem;color:var(--text-muted)}
+.memory-info{padding:7px 9px}
+.memory-title{font-size:.73rem;font-weight:600;color:var(--text-primary)}
+.memory-date{font-size:.66rem;color:var(--text-muted)}
+
+/* ── Responsive ── */
+@media(max-width:1100px){
+  .col-span-8{grid-column:span 7}.col-span-4{grid-column:span 5}
+  .stat-card.col-span-3{grid-column:span 6}
+  .col-span-5{grid-column:span 6}.col-span-7{grid-column:span 6}
+  .quick-actions{grid-template-columns:repeat(4,1fr)}
+}
+@media(max-width:900px){
+  .dashboard-grid{grid-template-columns:repeat(6,1fr)}
+  .col-span-3,.col-span-4,.col-span-5,.col-span-6,.col-span-7,.col-span-8,.col-span-9,.stat-card.col-span-3{grid-column:span 3}
+  .col-span-12,.welcome-card{grid-column:span 6}
+  .quick-actions{grid-template-columns:repeat(4,1fr)}
+}
+@media(max-width:600px){
+  .dashboard-grid{grid-template-columns:1fr 1fr;gap:10px}
+  .col-span-3,.col-span-4,.col-span-5,.col-span-6,.col-span-7,.col-span-8,.col-span-9,.col-span-12,.welcome-card,.stat-card.col-span-3{grid-column:span 2}
+  .welcome-name{font-size:1.2rem}.live-clock{font-size:1.55rem}
+  .quick-actions{grid-template-columns:repeat(4,1fr)}
+  .stat-value{font-size:1.4rem}
+}
+@media(max-width:380px){.quick-actions{grid-template-columns:repeat(2,1fr)}}
